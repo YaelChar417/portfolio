@@ -1,0 +1,45 @@
+@startuml 
+
+|Administrador|
+:Seleccionar la opción de registrar experiencia;
+
+|Sistema|
+:Renderizar el formulario de registrar experiencia;
+
+|Administrador|
+:Ingresar los datos de la experiencia
+    - Evidencia (media)
+    - Nombre de la experiencia
+    - Descripción
+    - Fecha de inicio
+    - Fecha de fin
+    - Tipo de evidencia;
+:Seleccionar la opciónde registrar experiencia;
+
+|Sistema|
+:Recuperar los datos ingresados de la experiencia
+    - Evidencia (media)
+    - Nombre de la experiencia
+    - Descripción
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_type;
+:Crear un registro en la tabla 
+**generics** con la información
+    - Evidencia (media)
+    - Nombre de la experiencia
+    - Descripción;
+:Crear un registro de la tabla 
+**experiences** con la información
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_type
+    - ID_generic (previamente creado);
+:Mostrar mensaje de que la 
+experiencia se guardó exitosamente;
+:Redirigir al apartado de experiencias;
+
+|Administrador|
+stop
+
+@enduml

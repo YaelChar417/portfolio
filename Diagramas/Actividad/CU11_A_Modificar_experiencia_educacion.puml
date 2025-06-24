@@ -1,0 +1,60 @@
+@startuml
+
+|Administrador|
+:Seleccionar una experiencia para modificarla;
+:Seleccionar la opción de modificar 
+la experiencia y educación;
+
+|Sistema|
+:Recuperar los datos de la experiencia seleccionada
+    - Evidencia (media)
+    - Nombre de la experiencia
+    - Descripción
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_type
+    - ID_generic
+    - ID (de la experiencia);
+
+:Mostrar los datos al administrador y permitir modificar;
+
+|Administrador|
+:Registrar valores nuevos a la experiencia;
+:Seleccionar el botón de modificar experiencia;
+
+|Sistema|
+if (Verificar que los campos estén llenos) then (Si están llenos)
+    :Recuperar los datos actualizados 
+    de la experiencia
+        - Evidencia (media)
+        - Nombre de la experiencia
+        - Descripción
+        - Fecha de inicio
+        - Fecha de fin
+        - ID_type
+        - ID_generic
+        - ID (de la experiencia);
+else
+    :Mostrar mensaje de que 
+    algún campo está vacío;
+    detach
+endif
+
+:Actualizar en el registro de la tabla 
+**generics** que coincida con el ID_generic
+    - Evidencia (media)
+    - Nombre de la experiencia
+    - Descripción;
+:Actualizar en el registro de la tabla **experiences** 
+que coincida con el ID (de la experiencia)
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_type;
+:Mostrar mensaje de que la experiencia 
+se actualizó correctamente;
+:Redirigir al apartado de experiencias;
+
+|Administrador|
+stop
+
+@enduml
