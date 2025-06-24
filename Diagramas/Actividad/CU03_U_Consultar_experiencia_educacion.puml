@@ -1,0 +1,37 @@
+@startuml
+
+|Usuario|
+start
+
+|Sistema|
+:Consultar la tabla **experiences** para obtener
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_type
+    - ID_generic;
+:Consultar la tabla **generics** para obtener
+    - Evidencia (media)
+    - Nombre de la experiencia
+    - Descripción;
+: Consultar la tabla **type_of** para obtener
+    - Nombre del tipo de experiencia;
+
+if (verificar que hay experiencias) then (Si hay)
+    :Devolver los siguientes datos recuperados 
+    y mostrar las experiencias educativas primero
+        - Evidencia (media)
+        - Nombre de la experiencia
+        - Descripción
+        - Fecha de inicio
+        - Fecha de fin
+        - Nombre del tipo de experiencia;
+else
+    :Devolver mensaje de que 
+    no hay experiencias;
+endif
+
+:Renderizar la vista y mostrarsela al usuario;
+
+|Usuario|
+:Consultar experiencia y educación;
+@enduml
