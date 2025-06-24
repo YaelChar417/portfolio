@@ -1,0 +1,33 @@
+@startuml
+
+|Usuario|
+start
+
+|Sistema|
+:Consultar la tabla de **skills** para obtener
+    - experience
+    - ID_generic;
+:Consultar la tabla de **generics** para obtener
+    - Evidencia (media)
+    - Nombre de la habilidad
+    - Descripción;
+
+if (Verificar que hay habilidades) then (Si hay)
+    :Devolver los siguientes datos recuperados.
+        - Evidencia (media)
+        - Nombre de la habilidad
+        - Descripción
+        - Experiencia
+        - ID_skill;
+else 
+    :Mostrar mensaje de que no 
+    hay habilidades actualmente;
+endif
+
+:Renderizar la vista y presentarla al usuario;
+
+|Usuario|
+:Consultar las habilidades;
+stop
+
+@enduml
