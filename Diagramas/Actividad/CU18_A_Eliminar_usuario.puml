@@ -1,0 +1,24 @@
+@startuml
+
+|Administrador|
+:Seleccionar un usuario en especifico;
+:Seleccionar la opción de eliminar usuario;
+
+|Sistema|
+:Recuperar el identificador del usuario seleccionado
+    - ID;
+
+:Eliminar el registro de la tabla **users** 
+que coincida con el ID del usuario seleccionado;
+
+:Eliminar el registro de la tabla **user_rol** 
+que coincida con el ID del usuario seleccionado;
+
+:Mostrar mensaje de que el usuario se eliminó con exito;
+
+:Redirigir al apartado de usuarios;
+
+|Administrador|
+stop
+
+@enduml

@@ -1,0 +1,59 @@
+@startuml
+
+|Administrador|
+start
+:Seleccionar un usuario en especifico;
+
+:Seleccionar la opción de modificar usuario;
+
+|Sistema|
+:Recuperar los datos del usuario seleccionado
+    - ID
+    - Nombre
+    - Apellido
+    - Correo electrónico
+    - Fecha de creación
+    - Nombre del rol;
+
+:Mostrar los datos del usuario y permitir modificar;
+
+|Administrador|
+:Registrar nuevos datos del usuario;
+
+:Seleccionar el botón de modificar usuario;
+
+|Sistema|
+if (Verificar que los campos estén llenos) then (Si están llenos)
+    :Recuperar los nuevos datos del usuario
+        - ID
+        - Nombre
+        - Apellido
+        - Correo electrónico
+        - Fecha de creación
+        - ID_rol;
+else
+    :Mostrar mensaje de que 
+    algún campo está vacío;
+    detach
+endif
+
+:Guardar en el registro de la tabla **users** 
+que coincida con el ID del usuario
+    - Nombre
+    - Apellido
+    - Correo electrónico
+    - Fecha de creación (por default);
+
+:Guardar en el registro de la tabla **user_rol** 
+que coincida con el ID del usuario
+    - ID_rol;
+
+:Mostrar mensaje de que el usuario 
+fue modificado exitosamente;
+
+:Redirigir al apartado de usuarios;
+
+|Administrador|
+stop
+
+@enduml
