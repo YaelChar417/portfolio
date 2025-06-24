@@ -1,0 +1,45 @@
+@startuml
+
+|Usuario|
+start
+
+|Sistema|
+:Renderizar formulario de enviar correo;
+
+|Usuario|
+:Registrar datos del formulario
+    - Nombre
+    - Apellido
+    - Correo electrónico
+    - Mensaje del correo;
+:Seleccionar la opción de enviar mensaje;
+
+|Sistema|
+if (Verificar que no estén vacíos) then (Llenados correctamente)
+    if(verificar que el correo sea valido) then (Si es valido)
+        :Recopilar los datos 
+        que ingresó el usuario;
+        :Buscar el ID del usuario 
+        usando su correo;
+    else (No es valido)
+        :Mostrar mensaje de que el 
+        correo no es valido;
+        detach
+    endif
+else (datos vacios)
+    :Mostrar mensaje de que 
+    algun campo está vacío;
+    detach
+endif
+
+:Guardar en un registro de la tabla **mails** lo siguiente
+    - Mensaje
+    - Fecha de envio (rellenada por default)
+    - ID_usuario;
+:Agregar al mensaje el nombre, apellido y correo del usuario;
+:Enviar usando nodemailer al correo del administrador;
+:Mostrar mensaje de que el correo fue enviado exitosamente;
+
+|Usuario|
+stop
+@enduml
