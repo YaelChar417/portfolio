@@ -13,6 +13,7 @@ start
     - Nombre de la habilidad
     - Descripción
     - Experiencia;
+:Seleccionar el botón de registrar habilidad;
 
 |Sistema|
 if (Verificar que los campos estén llenos) then (Si están llenos)

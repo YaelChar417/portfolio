@@ -1,0 +1,10 @@
+@startuml
+
+|Administrador|
+start
+:Seleccionar una habilidad en especifico;
+:Seleccionar la opción de modificar habilidad;
+
+
+
+@enduml
