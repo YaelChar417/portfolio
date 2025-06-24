@@ -1,0 +1,12 @@
+# Ignorar la carpeta de node_modules
+node_modules
+
+# Ignorar archivos txt
+*.txt
+
+# Ignorar archivos de variables de entorno.
+.env
+
+# Ignorar archivos del sistema windos
+.DS_Store
+Thumbs.db
