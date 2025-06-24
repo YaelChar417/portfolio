@@ -1,0 +1,66 @@
+@startuml 
+
+|Administrador|
+start
+:Seleccionar un proyecto en específico;
+:Seleccionar la opción de modificar proyecto;
+
+|Sistema|
+:Recuperar la información del proyecto 
+que seleccionó el Administrador
+    - Evidencia (media)
+    - Nombre del proyecto
+    - Descripción
+    - ID_generic
+    - ID (proyecto)
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_skill (1 o más);
+
+:Mostrar la información del proyecto 
+y permitir editar al administrador;
+
+|Administrador|
+:Realizar cambios en la información del proyecto;
+:Seleccionar el botón de editar el proyecto;
+
+|Sistema|
+if (Verificar que los campos estén llenos) then (Si están llenos)
+    :Recuperar los nuevos datos 
+    ingresados por el administrador
+    - Evidencia (media)
+    - Nombre del proyecto
+    - Descripción
+    - ID_generic
+    - ID (proyecto)
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_skill (1 o más);
+else 
+    :Mostrar mensaje de que 
+    algún campo está vacío;
+    detach
+endif
+
+:Actualizar en el registro de la tabla 
+**generics** que coincida con el ID_generic
+    - Evidencia (media)
+    - Nombre del proyecto
+    - Descripción;
+:Actualizar en el registro de la tabla 
+**projects** que coincida con el ID_generic 
+y el ID (del proyecto)
+    - Fecha de inicio
+    - Fecha de fin;
+:Eliminar todos los registros de la tabla 
+**technologies** que coincidan con el ID (del proyecto)
+:Registrar nuevos registros en la tabla 
+**technologies** con los nuevos ID_skill 
+y el ID (del proyecto);
+:Mostrar mensaje de que se guardaron
+los cambios al proyecto exitosamente;
+
+|Administrador|
+stop 
+
+@enduml 

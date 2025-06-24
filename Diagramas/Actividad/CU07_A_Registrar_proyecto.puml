@@ -1,0 +1,52 @@
+@startuml 
+
+|Administrador|
+start
+:Seleccionar la opción de registrar proyecto;
+
+|Sistema|
+:Renderizar el formulario de registrar proyecto;
+
+|Administrador|
+:Registrar los datos del formulario
+    - Evidencia (media)
+    - Nombre del proyecto
+    - Descripción
+    - Fecha de inicio
+    - Fecha de fin;
+
+:Seleccionar las tecnologías que 
+se usaron para el proyecto;
+:Seleccionar botón de crear proyecto;
+
+|Sistema|
+if (Verificar que los campos estén llenos) then (Si están llenos)
+    :Crear un registro en la tabla **generics** 
+    con los datos obtenidos
+        - Evidencia (media)
+        - Nombre del proyecto
+        - Descripción;
+else
+    :El sistema muestra mensaje de 
+    que los campos no están llenos;
+    detach
+endif
+
+:Crear un registro en la tabla **projects** 
+con los datos obtenidos y el ID_generic 
+previamente creado
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_generic;
+:Crear uno o varios registros en la tabla 
+**technologies** con los datos obtenidos
+    - ID_project (Previamente creado)
+    - ID_skill (Obtenido del formulario);
+:Mostrar mensaje de que se 
+guardo el proyecto exitosamente;
+:Redirigir a la pestaña de proyectos;
+
+|Administrador|
+stop
+
+@enduml

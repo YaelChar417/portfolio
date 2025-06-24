@@ -1,0 +1,26 @@
+@startuml 
+
+|Administrador|
+start
+:Seleccionar un proyecto en especifico para eliminar;
+:Seleccionar el botón de eliminar proyecto;
+
+|Sistema|
+:Recuperar los datos del proyecto 
+que se seleccionó
+    - ID_generic
+    - ID (del proyecto);
+:Eliminar el registro de la tabla **generics** 
+que coincida con el ID_generic;
+:Eliminar el registro de la tabla **projects** 
+que coincida con el ID (del proyecto);
+:Eliminar el o los registros de la tabla **technologies**
+que coincidan con el ID (del proyecto);
+:Mostrar mensaje de que se 
+eliminó el proyecto exitosamente;
+:Redirigir al apartado de proyectos;
+
+|Administrador|
+stop
+
+@enduml 
