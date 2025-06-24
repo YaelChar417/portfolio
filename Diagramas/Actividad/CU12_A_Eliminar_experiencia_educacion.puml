@@ -1,0 +1,24 @@
+@startuml 
+
+|Administrador|
+start
+:Seleccionar una experiencia en especifico;
+:Seleccionar el botón de eliminar experiencia;
+
+|Sistema|
+:Recuperar los identificadores de 
+la experiencia seleccionada
+    - ID_generic
+    - ID (de la experiencia);
+:Eliminar el registro de la tabla **generics** 
+que coincide con el ID_generic;
+:Eliminar el registro de la tabla **experiencies** 
+que coincide con el ID (de la experiencia);
+:Mostrar mensaje de que la experiencia 
+fue eliminada exitosamente;
+:Redirigir al apartado de experiencias;
+
+|Administrador|
+stop
+
+@enduml
