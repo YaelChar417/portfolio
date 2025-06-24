@@ -34,4 +34,5 @@ endif
 
 |Usuario|
 :Consultar experiencia y educación;
+stop
 @enduml
