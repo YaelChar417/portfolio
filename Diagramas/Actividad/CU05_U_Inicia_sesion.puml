@@ -1,0 +1,49 @@
+@startuml
+
+|Usuario|
+start
+:Seleccionar la opción de iniciar sesión;
+
+|Sistema|
+:Renderizar el formulario de iniciar sesión;
+
+|Usuario|
+:Ingresar su correo y contraseña;
+:Seleccionar la opción de iniciar sesión;
+
+|Sistema|
+if(Verificar que el 
+    correo sea valido) then (Si es valido)
+    :Consultar el ID del usuario usando 
+    su correo en la tabla **users**;
+else
+    :Mostrar mensaje de que 
+    el correo no es valido;
+    detach
+endif
+
+if(Verificar que coincidan las contraseñas) then (Si coinciden)
+    :Recuperar de la tabla **user_rol** el ID_rol 
+    que coincida con el ID del usuario;
+    :Recuperar de la tabla **rols** el titulo del 
+    rol que coincida con el ID_rol del usuario;
+else
+    :El sistema muestra mensaje de que el 
+    correo o contraseña son incorrectos;
+    detach
+endif
+
+if(Verificar si el usuario es administrador) then (Si es admin)
+    :El sistema le da permisos 
+    adicionales para editar la pagina;
+else
+    :El sistema muestra mensaje de 
+    bienvenida al usuario;
+endif
+
+:Renderizar la pagina principal y mostrarsela al usuario;
+
+|Usuario|
+stop
+
+@enduml
