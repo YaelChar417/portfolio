@@ -1,0 +1,46 @@
+@startuml
+
+|Administrador|
+start
+:Seleccionar la opción de registrar habilidad;
+
+|Sistema|
+:Renderizar el formulario de registrar habilidad;
+
+|Administrador|
+:Registrar los datos de la habilidad
+    - Evidencia (media)
+    - Nombre de la habilidad
+    - Descripción
+    - Experiencia;
+
+|Sistema|
+if (Verificar que los campos estén llenos) then (Si están llenos)
+    :Recuperar la información introducida 
+    por el Administrador
+        - Evidencia (media)
+        - Nombre de la habilidad
+        - Descripción
+        - Experiencia;
+else 
+    :Mostrar mensaje de que 
+    algún campo está vacío;
+endif
+
+:Crear un registro en la tabla 
+**generics** con la información
+    - Evidencia (media)
+    - Nombre de la habilidad
+    - Descripción;
+:Crear un registro en la tabla 
+**skills** con la información
+    - Experiencia
+    - ID_generic (previamente creado);
+:Mostrar mensaje de que la habilidad 
+fue creada exitosamente;
+:Redirigir al apartado de habilidades;
+
+|Administrador|
+stop
+
+@enduml
