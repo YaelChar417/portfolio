@@ -1,0 +1,28 @@
+@startuml
+
+|Administrador|
+start
+:Seleccionar una habilidad en específico;
+:Seleccionar la opción de eliminar habilidad;
+
+|Sistema|
+:Recuperar los identificadores de 
+la habilidad seleccionada
+    - ID_generic
+    - ID (de la habilidad);
+
+:Eliminar el registro de la tabla **generics** 
+que coincida con el ID_generic;
+
+:Eliminar el registro de la tabla **skills** 
+que coincida con el ID de la habilidad;
+
+:Mostrar mensaje de que la habilidad 
+fue eliminada exitosamente;
+
+:Redirigir al apartado de skills;
+
+|Administrador|
+stop
+
+@enduml

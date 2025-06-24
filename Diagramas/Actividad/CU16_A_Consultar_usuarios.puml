@@ -1,0 +1,41 @@
+@startuml
+
+|Administrador|
+start
+:Seleccionar el botón del apartado usuarios;
+
+|Sistema|
+:Consultar la tabla **users** para 
+obtener los datos de los usuarios
+    - ID
+    - Nombre
+    - Apellido
+    - Correo electrónico
+    - Contraseña
+    - Fecha de creación;
+
+:Consultar la tabla user_rol para 
+obtener el ID_rol de los usuarios;
+:Consultar la tabla rol para obtener 
+el nombre del rol de los usuarios;
+
+if(Verificar si hay usuarios registrados) then (Si hay usuarios)
+    :Obtener la información 
+    de los usuarios
+        - Nombre
+        - Apellido
+        - Correo electrónico
+        - Fecha de creación
+        - Nombre del rol;
+else
+    :Mostrar mensaje de que no 
+    hay usuarios registrados;
+endif
+
+:Renderizar el apartado de usuarios 
+con la información obtenida;
+
+|Administrador|
+stop
+
+@enduml
