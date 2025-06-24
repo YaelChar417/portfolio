@@ -5,6 +5,52 @@ start
 :Seleccionar una habilidad en especifico;
 :Seleccionar la opción de modificar habilidad;
 
+|Sistema|
+:Recuperar los datos de la habilidad seleccionada
+    - Evidencia (media)
+    - Nombre de la habilidad
+    - Descripción
+    - Experiencia
+    - ID_generic
+    - ID (de la habilidad);
+:Mostrar los datos de la habilidad y permitir modificar;
 
+|Administrador|
+:Registra nuevos datos a la habilidad;
+:Seleccionar el botón de modificar habilidad;
+
+|Sistema|
+if(Verificar que los datos estén llenos) then (Si están llenos)
+    :Recuperar los datos actualizados 
+    de la habilidad
+    - Evidencia (media)
+    - Nombre de la habilidad
+    - Descripción
+    - Experiencia
+    - ID_generic
+    - ID (de la habilidad);
+else 
+    :Mostrar mensaje de que 
+    algún campo está vacío;
+    detach
+endif
+
+:Actualizar en el registro de la tabla 
+**generics** que coincida con el ID_generic
+    - Evidencia (media)
+    - Nombre de la habilidad
+    - Descripción;
+
+:Actualizar en el registro de la tabla **skills** 
+que coincida con el ID (de la habilidad)
+    - Experiencia
+    - ID_generic;
+
+:Mostrar mensaje de que la habilidad 
+fue modificada exitosamente;
+:Redirigir al apartado de habilidades;
+
+|Administrador|
+stop
 
 @enduml
