@@ -1,0 +1,43 @@
+@startuml
+
+| Usuario |
+start
+| Sistema |
+:Consultar la tabla **generics** para obtener
+    - Evidencia (media)
+    - Nombre del proyecto
+    - Descripción
+    - ID_generic;
+:Consultar la tabla **projects** para obtener
+    - Fecha de inicio
+    - Fecha de fin
+    - ID_project;
+:Consultar la tabla **technologies** para obtener
+    - ID_project
+    - ID_skill;
+:Consultar la tabla **skills** para obtener
+    - experience
+    - ID_skill;
+:Consultar la tabla **generics** con el ID_skill para obtener
+    - Nombre de la habilidad;
+
+if(Verificar que haya proyectos) then (Si hay)
+    :Devolver los siguientes datos recuperados
+    De los primeros 5 proyectos
+        - Evidencia(media)
+        - Nombre del proyecto
+        - Descripción
+        - Tecnologías usadas
+        - Fecha de inicio y fin;
+else
+    :Devolver mensaje de que 
+    no hay proyectos actualmente;
+endif
+
+:Renderizar la vista y presentarla al usuario;
+
+| Usuario |
+:Consultar los proyectos;
+stop
+
+@enduml
