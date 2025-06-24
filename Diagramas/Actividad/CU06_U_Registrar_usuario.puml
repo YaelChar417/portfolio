@@ -1,0 +1,43 @@
+@startuml
+
+|Usuario|
+start
+:Seleccionar la opción de registrar usuario;
+
+|Sistema|
+:Renderizar el formulario de registrar usuario;
+
+|Usuario|
+:Ingresar los datos necesarios
+    - Nombre
+    - Apellido
+    - Correo electrónico
+    - Contraseña
+    - Fecha de creación (Por default);
+:Seleccionar la opción de registrar usuario;
+
+|Sistema|
+:Recuperar los datos ingresados por el usuario;
+
+if(Validar que los campos estén llenos) then (Si están llenos)
+    :Crear un registro en la tabla **users** 
+    con la información del usuario
+        - Nombre
+        - Apellido
+        - Correo electrónico
+        - Contraseña
+        - Fecha de creación
+        - ID;
+else
+    :Mostrar mensaje de que 
+    algún campo está vacío;
+    detach
+endif
+
+:Mostrar mensaje de que el usuario fue creado con exito;
+:Redirigir a la pestaña de iniciar sesión;
+
+|Usuario|
+stop
+
+@enduml
