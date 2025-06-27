@@ -1,0 +1,35 @@
+@startuml 
+
+autonumber
+
+actor navegador as nav
+boundary "project.routes" as routes
+boundary "project.views" as view
+control "project.controllers" as controller
+entity "project.models" as model
+database portfolio as db 
+
+activate nav
+nav -> routes: /home
+deactivate nav
+activate routes
+routes -> controller: get.projects(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: get_all_projects()
+activate model
+model --> db:db.execute(´SELECT gp.*, p.start_date, p.end_date, p.ID, \n    GROUP_CONCAT(gs.name SEPARATOR ', ') \nFROM generics as gp \nJOIN projects p On gp.ID = p.ID_generic \nJOIN technologies t ON p.ID = t.ID_project \nJOIN skills s ON s.ID = t.ID_skill \nJOIN generics gs ON gs.ID = s.ID_generic \nGROUP BY gp.ID´) 
+activate db
+db -->> model: query OK
+deactivate db
+model -->> controller: projects
+deactivate model
+controller -> view: res.render('projects_list.ejs')
+deactivate controller
+activate view
+view -> nav: HTML
+deactivate view
+activate nav
+
+@enduml
