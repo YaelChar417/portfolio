@@ -10,7 +10,7 @@ entity "skill.models" as model
 database portfolio as db 
 
 activate nav
-nav -> routes: /home
+nav -> routes: GET /home
 deactivate nav
 
 activate routes
