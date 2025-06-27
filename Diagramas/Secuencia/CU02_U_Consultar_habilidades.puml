@@ -1,0 +1,42 @@
+@startuml 
+
+autonumber
+
+actor navegador as nav
+boundary "skill.routes" as routes
+boundary "skill.views" as view
+control "skill.controllers" as controller
+entity "skill.models" as model
+database portfolio as db 
+
+activate nav
+nav -> routes: /home
+deactivate nav
+
+activate routes
+routes -> controller: get_skills(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: get_all_skills()
+
+activate model 
+model ->> db: db.execute(`SELECT s.*, g.name, \n    g.title, g.description \nFROM skills s \nJOIN generics g ON g.ID = s.ID_generic`)
+
+activate db
+db -->> model: Query OK
+deactivate db
+
+model -->> controller: skills
+deactivate model
+
+controller -> view: res.render('skills.ejs')
+deactivate controller
+
+activate view
+view -> nav: HTML
+deactivate view
+
+activate nav
+
+@enduml

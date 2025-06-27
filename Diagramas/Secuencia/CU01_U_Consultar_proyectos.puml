@@ -19,7 +19,7 @@ deactivate routes
 activate controller
 controller ->> model: get_all_projects()
 activate model
-model --> db:db.execute(´SELECT gp.*, p.start_date, p.end_date, p.ID, \n    GROUP_CONCAT(gs.name SEPARATOR ', ') \nFROM generics as gp \nJOIN projects p On gp.ID = p.ID_generic \nJOIN technologies t ON p.ID = t.ID_project \nJOIN skills s ON s.ID = t.ID_skill \nJOIN generics gs ON gs.ID = s.ID_generic \nGROUP BY gp.ID´) 
+model ->> db:db.execute(´SELECT gp.*, p.start_date, p.end_date, p.ID, \n    GROUP_CONCAT(gs.name SEPARATOR ', ') \nFROM generics as gp \nJOIN projects p On gp.ID = p.ID_generic \nJOIN technologies t ON p.ID = t.ID_project \nJOIN skills s ON s.ID = t.ID_skill \nJOIN generics gs ON gs.ID = s.ID_generic \nGROUP BY gp.ID´) 
 activate db
 db -->> model: query OK
 deactivate db
