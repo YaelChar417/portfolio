@@ -30,7 +30,7 @@ deactivate db
 model -->> controller: skills
 deactivate model
 
-controller -> view: res.render('skills.ejs')
+controller -> view: res.render('skills_list.ejs', skills)
 deactivate controller
 
 activate view

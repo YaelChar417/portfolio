@@ -25,7 +25,7 @@ db -->> model: query OK
 deactivate db
 model -->> controller: projects
 deactivate model
-controller -> view: res.render('projects_list.ejs')
+controller -> view: res.render('projects_list.ejs', projects)
 deactivate controller
 activate view
 view -> nav: HTML

@@ -1,0 +1,42 @@
+@startuml 
+
+autonumber
+
+actor navegador as nav
+boundary "experience.routes" as routes
+boundary "experience.views" as view
+control "experience.controllers" as controller
+entity "experience.models" as model
+database portfolio as db 
+
+activate nav
+nav -> routes: /home
+deactivate nav
+
+activate routes
+routes -> controller: get_experiences(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: get_all_experiences()
+
+activate model
+model ->> db: db.execute(`SELECT g.media, g.name, \n    g.description, e.*, to.name \nFROM generics g \nJOIN experiences e ON g.ID = e.ID_generic \nJOIN type_of to ON to.ID = e.ID_type`)
+
+activate db
+db -->> model: Query ok
+deactivate db
+
+model -->> controller: experiences
+deactivate model
+
+controller -> view: res.render('experiences_list.ejs', experiences)
+deactivate controller
+
+activate view
+view -> nav: HTML
+deactivate view
+
+activate nav
+
+@enduml
