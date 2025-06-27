@@ -1,0 +1,90 @@
+@startuml 
+
+autonumber
+
+actor navegador as nav
+boundary "mail.routes" as routes
+boundary "mail.views" as view
+control "mail.controllers" as controller
+
+activate nav
+nav -> routes: GET /home
+deactivate nav
+
+activate routes
+routes -> controller: get_mail_forms(req, res)
+deactivate routes
+
+activate controller
+controller -> view: res.render('mail.form.ejs')
+deactivate controller
+
+activate view
+view -> nav: HTML (forms)
+deactivate view
+
+activate nav
+nav -> routes: POST /mail
+deactivate nav
+
+activate routes
+routes -> controller: post_mail(req, res)
+deactivate routes
+
+activate controller
+
+alt sesion iniciada
+    create entity mail
+    controller -> mail: new Mail(req.userID, req.message, ID)
+    controller ->> mail: save()
+
+    entity "mail.models" as model
+    database portfolio as db 
+
+    activate mail
+    mail ->> db: db.execute(`INSERT INTO mails (?,?,?,?) \nVALUES (this.ID_user, this.message, this.ID, \n  this.sent_date)`)
+
+    activate db
+    db -->> mail: Query OK
+    deactivate db
+
+    mail -->> controller: promesa
+    deactivate mail
+
+else sesion no iniciada
+    controller ->> model: get_userID(req.mail)
+
+    activate model
+    model -> db: db.execute(`SELECT u.ID \nFROM users u \nWHERE u.mail = ?`, [req.mail])
+
+    activate db
+    db -->> model: Query OK
+    deactivate db
+
+    model -->> controller: ID_user
+    deactivate model
+
+    controller -> mail: new Mail(req.userID, req.message, ID)
+    controller ->> mail: save() 
+
+    activate mail
+    mail ->> db: db.execute(`INSERT INTO mails (?,?,?,?) \nVALUES (this.ID_user, this.message, this.ID, \n  this.sent_date)`)
+
+    activate db
+    db -->> mail: Query OK
+    deactivate db
+
+    mail -->> controller: promesa
+    deactivate mail
+end
+
+controller -> view: res.render('home.ejs', message)
+deactivate controller 
+
+activate view
+view -> nav: HTML (message)
+deactivate view
+
+activate nav
+
+@enduml
