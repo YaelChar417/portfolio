@@ -1,0 +1,38 @@
+@startuml
+
+actor navegador as nav
+boundary "project.routes" as routes
+boundary "project.views" as view
+control "project.controllers" as controller
+entity "project.model" as model
+database portfolio as db  
+
+activate nav
+nav -> routes: GET /:id_project/delete
+deactivate nav
+
+activate routes
+routes -> controller: delete_project(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: delete_one_project(req.params.id_project, req.params.id_generic)
+
+activate model
+model ->> db: db.execute(`DELETE FROM generics g \n\tWHERE g.ID = ?`, \n\t[req.params.id_generic])
+activate db
+model ->> db: db.execute(`DELETE FROM projects p \n\tWHERE p.ID = ?`, \n\t[req.params.id_project])
+model ->> db: db.execute(`DELETE FROM technologies t \n\tWHERE t.ID_project = ?`, \n\t[req.params.id_project])
+
+db -->> model: Query OK
+deactivate db
+
+model -->> controller: promesa
+deactivate model
+
+controller ->> routes: res.redirect('/home')
+deactivate controller
+
+activate routes
+
+@enduml
