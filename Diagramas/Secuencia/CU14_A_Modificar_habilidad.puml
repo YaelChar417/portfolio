@@ -17,8 +17,51 @@ routes -> controller: get_one_skill(req, res)
 deactivate routes
 
 activate controller
-controller ->> model: get_one_skill(req.params.ID, req.params.ID_generic)
+controller ->> model: get_one_skill(req.params.ID)
 
-model ->> db: db.execute(`SELECT gs.media, gs.name, gs.description, s.* FROM generics gs JOIN skills s ON gs.ID = s.ID_generic`)
+activate model
+model ->> db: db.execute(`SELECT gs.media, gs.name, \n\t\tgs.description, s.* \n\tFROM generics gs \n\tJOIN skills s \n\t\tON gs.ID = s.ID_generic \n\tWHERE s.ID = ?`, \n\t[req.params.ID])
+
+activate db
+db -->> model: Quert OK
+deactivate db
+
+model -->> controller: skill_info
+deactivate model
+
+controller -> view: res.render('skill_modify.ejs', \n\tskill_info)
+deactivate controller
+
+activate view
+view -> nav: HTML modify
+deactivate view
+
+activate nav
+nav -> routes: POST /skill/:id_skill
+deactivate nav
+
+activate routes
+routes -> controller: update_skill(req, res)
+deactivate routes
+
+activate controller
+create entity skill
+controller -> skill: new Skill(req.body.media, req.body.name, \n\treq.body.description, req.body.experience, \n\tID_generic, ID)
+controller ->> model: update_skill(skill)
+
+activate model
+model ->> db: db.execute(`UPDATE generics g \n\tSET media = ?, \n\t\tname = ?, \n\t\tdescription = ? \n\tWHERE g.ID = ?`, \n\t[skill.media, skill.name, \n\tskill.description, skill.ID_generic])
+deactivate db
+model ->> db: db.execute(`UPDATE skills s \n\tSET experience = ? \n\tWHERE s.ID = ?`, \n\t[skill.experience, skill.ID])
+
+db -->> model: Query OK
+deactivate db
+
+model -->> controller: promesa
+deactivate model
+
+controller -> routes: res.redirect('/home')
+deactivate controller
+activate routes
 
 @enduml
