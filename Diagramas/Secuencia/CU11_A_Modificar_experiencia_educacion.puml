@@ -17,10 +17,10 @@ routes -> controller: get_one_experience(req, res)
 deactivate routes
 
 activate controller
-controller ->> model: get_one_experience(id_experience)
+controller ->> model: get_one_experience(req.params.ID)
 
 activate model 
-model ->> db: db.execute(`SELECT ge.media, ge.name, \n\t\tge.description, e.*, t.name \n\tFROM generic ge \n\tJOIN experiences e \n\t\tON ge.ID = e.ID_experience \n\tJOIN type_of t \n\t\tON t.ID = e.ID_type \n\tWHERE e.ID_experience = ?`, \n\t[id_experience])
+model ->> db: db.execute(`SELECT ge.media, ge.name, \n\t\tge.description, e.*, t.name \n\tFROM generic ge \n\tJOIN experiences e \n\t\tON ge.ID = e.ID_generic \n\tJOIN type_of t \n\t\tON t.ID = e.ID_type \n\tWHERE e.ID = ?`, \n\t[id_experience])
 
 activate db
 db -->> model: Query OK
