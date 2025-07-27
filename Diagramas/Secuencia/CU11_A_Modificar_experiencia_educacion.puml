@@ -8,4 +8,48 @@ entity "experiences.model" as model
 database portfolio as db 
 autonumber
 
+activate nav
+nav -> routes: GET /experiences/:id_experience
+deactivate nav
+
+activate routes
+routes -> controller: get_one_experience(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: get_one_experience(id_experience)
+
+activate model 
+model ->> db: db.execute(`SELECT ge.media, ge.name, \n\t\tge.description, e.*, t.name \n\tFROM generic ge \n\tJOIN experiences e \n\t\tON ge.ID = e.ID_experience \n\tJOIN type_of t \n\t\tON t.ID = e.ID_type \n\tWHERE e.ID_experience = ?`, \n\t[id_experience])
+
+activate db
+db -->> model: Query OK
+deactivate db
+
+model -->> controller: experience_info
+deactivate model
+
+controller -> view: res.render('experience_modify.ejs', \n\texperience_info)
+deactivate controller
+
+activate view
+view -> nav: HTML modify
+deactivate view
+
+activate nav
+nav -> routes: POST /experiences/:id_experience
+deactivate nav
+
+activate routes
+routes -> controller: update_experience(req, res)
+deactivate routes
+
+activate controller
+create entity experience
+controller -> experience: new Experience(req.body.media, req.body.name, req.body.description, req.body.start_date, req.body.end_date, req.params.ID_type, req.params.ID_generic, req.params.ID)
+controller ->> model: update_experience(experience)
+
+activate model
+
+
 @enduml
