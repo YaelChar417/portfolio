@@ -1,0 +1,56 @@
+@startuml
+
+actor navegador as nav
+boundary "skills.routes" as routes
+boundary "skills.views" as view
+control "skills.controllers" as controller
+
+autonumber
+
+activate nav
+nav -> routes: GET /skills
+deactivate nav
+
+activate routes
+routes -> controller: get_skills_form(req, res)
+deactivate routes
+
+activate controller
+controller -> view: res.render('skills_form.ejs')
+deactivate controller
+
+activate view
+view -> nav: HTML Form
+deactivate view
+
+activate nav
+nav -> routes: POST /skills
+deactivate nav
+
+activate routes
+routes -> controller: add_skill(req, res)
+deactivate routes
+
+activate controller
+create entity skill 
+controller -> skill: new Skill(req.body.media, req.body.name, \n\treq.body.description, req.body.experience, \n\tID_generic, ID)
+activate skill
+controller ->> skill: save()
+
+database portfolio as db 
+
+skill ->> db: db.execute(`INSERT INTO generic \n\tVALUES (?,?,?,?)`, \n\t[this.media, this.name, \n\tthis.description, this.ID_generic])
+activate db
+skill ->> db: db.execute(`INSERT INTO skills \n\tVALUES (?,?,?)`, \n\t[this.experience, this.ID_generic, \n\tthis.ID])
+
+db -->> skill: Query OK
+deactivate db
+
+skill -->> controller: promesa
+deactivate skill
+
+controller -> routes: res.redirect('/home')
+deactivate controller
+activate routes
+
+@enduml
