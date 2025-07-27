@@ -57,7 +57,7 @@ deactivate routes
 
 activate controller 
 create entity project
-controller -> project: new Project(req.params.media, req.params.name, \n\treq.params.description, req.params.ID_generic, \n\treq.params.start_date, req.params.end_date, req.params.ID)
+controller -> project: new Project(req.body.media, req.body.name, \n\treq.body.description, req.params.ID_generic, \n\treq.body.start_date, req.body.end_date, req.params.ID)
 
 create entity skills
 controller -> skills: skills[] = req.params[6:]
