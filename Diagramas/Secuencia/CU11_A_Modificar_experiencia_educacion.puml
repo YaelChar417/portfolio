@@ -46,10 +46,22 @@ deactivate routes
 
 activate controller
 create entity experience
-controller -> experience: new Experience(req.body.media, req.body.name, req.body.description, req.body.start_date, req.body.end_date, req.params.ID_type, req.params.ID_generic, req.params.ID)
+controller -> experience: new Experience(req.body.media, req.body.name, \n\treq.body.description, req.body.start_date, \n\treq.body.end_date, req.body.ID_type, \n\treq.params.ID_generic, req.params.ID)
 controller ->> model: update_experience(experience)
 
 activate model
+model ->> db: db.execute(`UPDATE generics g \n\tSET media = ?, \n\t\tname = ? \n\t\tdescription = ? \n\tWHERE g.ID = ?`, \n\t[experience.media, experience.name, \n\texperience.description, experience.ID_generic])
+activate db
+model ->> db: db.execute(`UPDATE experiences e \n\tSET start_date = ?, \n\t\tend_date = ?, \n\t\tID_type = ? \n\tWHERE e.ID = ?`, \n\t[experience.start_date, experience.end_date, \n\texperience.ID_type, experience.ID])
 
+db -->> model: Query OK
+deactivate db
+
+model -->> controller: promesa
+deactivate model
+
+controller -> routes: res.redirect('/home')
+deactivate controller 
+activate routes
 
 @enduml
