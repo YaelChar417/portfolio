@@ -1,0 +1,11 @@
+@startuml
+
+actor navegador as nav
+boundary "experiences.routes" as routes
+boundary "experiences.views" as view
+control "experiences.controllers" as controller
+entity "experiences.model" as model
+database portfolio as db 
+autonumber
+
+@enduml

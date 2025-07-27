@@ -4,7 +4,7 @@ actor navegador as nav
 boundary "experiences.routes" as routes
 boundary "experiences.views" as view
 control "experiences.controllers" as controller
-
+autonumber
 
 activate nav
 nav -> routes: GET /experiences
@@ -32,8 +32,23 @@ deactivate routes
 
 activate controller
 create entity experience
-controller ->> experience: new Experience(req.body.)
+controller -> experience: new Experience(req.body.media, req.body.name, \n\treq.body.description, ID_generic, req.body.start_date, \n\treq.body.end_date, req.body.ID_type, ID)
+activate experience
+controller ->> experience: save()
 
-database portfolio as db
+database portfolio as db  
+experience ->> db: db.execute(`INSERT INTO generic \n\tVALUES (?,?,?,?)`, \n\t[this.media, this.name, \n\tthis.description, this.ID_generic])
+activate db
+experience ->> db: db.execute(`INSERT INTO experiences \n\tVALUES (?,?,?,?,?)`, \n\t[this.start_date, this.end_date, \n\tthis.ID_type, this.ID_generic, this.ID])
+
+db -->> experience: Query OK
+deactivate db
+
+experience -->> controller: promesa
+deactivate experience
+
+controller -> routes: res.redirect('/home')
+deactivate controller
+activate routes
 
 @enduml

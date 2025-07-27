@@ -6,6 +6,7 @@ boundary "project.views" as view
 control "project.controllers" as controller
 entity "project.model" as model
 database portfolio as db  
+autonumber
 
 activate nav
 nav -> routes: GET /:id_project/delete
