@@ -1,0 +1,56 @@
+@startuml 
+
+autonumber
+
+actor navegador as nav
+boundary "mail.routes" as routes
+boundary "mail.views" as view
+control "user.controllers" as controller
+
+
+activate nav
+nav -> routes: GET /sign-up
+deactivate nav
+
+activate routes
+routes -> controller: get_signup_form(req, res)
+deactivate routes
+
+activate controller
+controller -> view: res.render('signup_form.ejs')
+deactivate controller
+
+activate view
+view -> nav: HTML Form
+deactivate view
+
+activate nav
+nav -> routes: POST /sign-up
+deactivate nav
+
+activate routes
+routes -> controller: post_signup(req, res)
+deactivate routes
+
+activate controller
+create entity user 
+
+controller -> user: new User(req.body.mail, \n\treq.body.password, creation_date, \n\treq.body.name, req.body.last_name, ID)
+activate user
+controller ->> user: save()
+
+entity "user.models" as model
+database portfolio as db 
+
+user ->> db: db.execute(INSERT INTO users (?,?,?,?,?,?) \n\tVALUES (this.mail, this.password, \n\tthis.creation_date, this.name, this.\n\tlast_name, this.ID))
+
+activate db
+db -->> user: Query OK
+deactivate db
+
+user -->> controller: promesa
+controller -> routes: res.redirect('/login')
+deactivate controller
+activate routes
+
+@enduml
