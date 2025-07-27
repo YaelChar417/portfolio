@@ -1,0 +1,24 @@
+@startuml
+
+actor navegador as nav
+boundary "skills.routes" as routes
+boundary "skills.views" as view
+control "skills.controllers" as controller
+entity "skills.models" as model
+database portfolio as db 
+autonumber
+
+activate nav
+nav -> routes: GET /skill/:id_skill
+deactivate nav
+
+activate routes
+routes -> controller: get_one_skill(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: get_one_skill(req.params.ID, req.params.ID_generic)
+
+model ->> db: db.execute(`SELECT gs.media, gs.name, gs.description, s.* FROM generics gs JOIN skills s ON gs.ID = s.ID_generic`)
+
+@enduml
