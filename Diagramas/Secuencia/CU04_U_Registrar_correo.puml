@@ -42,7 +42,7 @@ alt sesion iniciada
     database portfolio as db 
 
     activate mail
-    mail ->> db: db.execute(`INSERT INTO mails (?,?,?,?) \nVALUES (this.ID_user, this.message, this.ID, \n  this.sent_date)`)
+    mail ->> db: db.execute(`INSERT INTO mails VALUES (?,?,?,?)`, \n\t[this.ID_user, this.message, this.ID, this.sent_date])
 
     activate db
     db -->> mail: Query OK

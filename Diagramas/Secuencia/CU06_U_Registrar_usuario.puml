@@ -42,7 +42,7 @@ controller ->> user: save()
 entity "user.models" as model
 database portfolio as db 
 
-user ->> db: db.execute(INSERT INTO users (?,?,?,?,?,?) \n\tVALUES (this.mail, this.password, \n\tthis.creation_date, this.name, this.\n\tlast_name, this.ID))
+user ->> db: db.execute(`INSERT INTO users \n\tVALUES(?,?,?,?,?,?)`, \n\t[this.mail, this.password, \n\tthis.creation_date, \n\tthis.name, this.last_name, this.ID])
 
 activate db
 db -->> user: Query OK

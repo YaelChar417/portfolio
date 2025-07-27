@@ -39,7 +39,7 @@ controller -> generic: new_generic(req.body.media, \n\treq.body.name, req.body.d
 activate generic
 controller ->> generic: save()
 
-generic ->> db: db.execute(`INSERT INTO generics VALUES ()`)
+generic ->> db: db.execute(`INSERT INTO generics VALUES ()`, [])
 
 entity "project.models" as model
 database portfolio as db 
