@@ -33,27 +33,14 @@ routes -> controller: add_project(req, res)
 deactivate routes
 
 activate controller
-    create entity generic
-controller -> generic: new_generic(req.body.media, \n\treq.body.name, req.body.description, \n\tID)
+create entity project
+database portfolio as db  
 
-activate generic
-controller ->> generic: save()
-
-database portfolio as db   
-
-generic ->> db: db.execute(`INSERT INTO generics \n\tVALUES (?,?,?,?)`, [this.media, \n\tthis.name, this.description, this.ID])
-
-activate db
-db -->> generic: Query OK
-deactivate db
-
-generic -->> controller: generic creado
-deactivate generic
-    create entity project
-
-controller -> project: new_project(req.body.start_date, \n\treq.body.end_date, generic.ID, ID)
+controller -> project: new_project(req.body.media, \n\treq.body.name, req.body.description, \n\tID_generic, req.body.start_date, \n\treq.body.end_date, ID)
 activate project
 controller ->> project: save()
+
+project ->> db: db.execute(`INSERT INTO generics \n\tVALUES (?,?,?,?)`, [this.media, \n\tthis.name, this.description, this.ID_generic])
 
 project ->> db: db.execute(`INSERT INTO projects \n\tVALUES (?,?,?,?)`, [this.start_date, \n\tthis.end_date, this.ID_generic, this.ID])
 
