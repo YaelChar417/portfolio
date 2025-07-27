@@ -68,7 +68,7 @@ else sesion no iniciada
     controller ->> mail: save() 
 
     activate mail
-    mail ->> db: db.execute(`INSERT INTO mails (?,?,?,?) \nVALUES (this.ID_user, this.message, this.ID, \n  this.sent_date)`)
+    mail ->> db: db.execute(`INSERT INTO mails \n\tVALUES (?,?,?,?)`, [this.ID_user, \n\tthis.message, this.ID, this.sent_date])
 
     activate db
     db -->> mail: Query OK
