@@ -1,0 +1,67 @@
+@startuml 
+
+autonumber
+
+actor navegador as nav
+boundary "users.routes" as routes
+boundary "users.views" as view
+control "users.controllers" as controller
+entity "users.models" as model
+database portfolio as db 
+
+activate nav
+nav -> routes: GET /user/:ID_user
+deactivate nav
+
+activate routes
+routes -> controller: get_one_user(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: get_one_user(req.params.ID)
+
+activate model
+model ->> db: db.execute(`SELECT u.*, r.* \n\tFROM users u \n\tJOIN user_rol ur \n\t\tON u.ID = ur.ID_user \n\tJOIN rols r \n\t\tON r.ID = ur.ID_rol \n\tWHERE u.ID = ?`, \n\t[req.params.ID])
+
+activate db
+db -->> model: Query ok
+deactivate db
+
+model -->> controller: user_info
+deactivate model
+
+controller -> view: res.render('user_modify.ejs', \n\tuser_info)
+deactivate controller
+
+activate view
+view -> nav: HTML Modify
+deactivate view
+
+activate nav
+nav -> routes: POST /user/:ID_user
+deactivate nav
+
+activate routes
+routes -> controller: update_user(req, res)
+deactivate routes
+
+activate controller
+create entity user
+controller -> user: new User(req.body.mail, req.params.password, \n\tcreation_date, req.body.name, \n\treq.body.last_name, req.params.ID, \n\treq.body.ID_rol)
+
+controller ->> model: update_user(user)
+activate model
+model ->> db: db.execute(`UPDATE users u \n\tSET mail = ?, \n\t\tname = ?, \n\t\tlast_name = ? \n\tWHERE u.ID = ?`, \n\t[user.mail, user.name, user.last_name, user.ID])
+activate db
+model ->> db: db.execute(`UPDATE user_rol ur \n\tSET ID_rol = ? \n\tWHERE ur.ID_user = ?`, \n\t[user.ID_rol, user.ID])
+
+db -->> model: Query ok
+deactivate db
+
+model -->> controller: promesa
+deactivate model
+
+controller -> routes: res.redirect('/user')
+deactivate controller
+activate routes
+@enduml
