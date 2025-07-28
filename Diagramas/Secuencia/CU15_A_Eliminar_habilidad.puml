@@ -1,0 +1,36 @@
+@startuml
+
+actor navegador as nav
+boundary "skills.routes" as routes
+boundary "skills.views" as view
+control "skills.controllers" as controller
+entity "skills.models" as model
+database portfolio as db 
+autonumber
+
+activate nav
+nav -> routes: GET /:id_skill/delete
+deactivate nav
+
+activate routes
+routes -> controller: delete_skill(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: delete_skill(req.params.ID, \n\treq.params.ID_generic)
+
+activate model
+model ->> db: db.execute(`DELETE FROM generics g \n\tWHERE g.ID = ?`, \n\t[req.params.ID_generic])
+activate db
+model ->> db: db.execute(`DELETE FROM skills s \n\tWHERE s.ID = ?`, \n\t[req.params.ID])
+
+db -->> model: Query OK
+deactivate db
+
+model -->> controller: promesa
+deactivate model
+controller -> routes: res.redirect('/home')
+deactivate controller
+activate routes
+
+@enduml
