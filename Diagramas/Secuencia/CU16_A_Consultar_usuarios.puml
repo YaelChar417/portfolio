@@ -1,0 +1,41 @@
+@startuml 
+
+autonumber
+
+actor navegador as nav
+boundary "users.routes" as routes
+boundary "users.views" as view
+control "users.controllers" as controller
+entity "users.models" as model
+database portfolio as db 
+
+activate nav
+nav -> routes: GET /users
+deactivate nav
+
+activate routes
+routes -> controller: get_users(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: get_all_users()
+
+activate model
+model ->> db: db.execute(`SELECT u.*, r.* \n\tFROM users u \n\tJOIN user_rol ur \n\t\tON u.ID = ur.ID_user \n\tJOIN rols r \n\t\tON r.ID = ur.ID_rol`)
+
+activate db
+db -->> model: Query OK
+deactivate db
+
+model -->> controller: users_info
+deactivate model
+
+controller -> view: res.render('users_list.ejs')
+deactivate controller
+
+activate view
+view -> nav: HTML 
+deactivate view
+activate nav
+
+@enduml
