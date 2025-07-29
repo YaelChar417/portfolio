@@ -3,8 +3,9 @@
     "version": "1.0.0",
     "description": "portfolio made by XMaster417 (Yael Charles)",
     "main": "app.js",
-    "type": "module",
+    "type": "commonjs",
     "scripts": {
+        "dev": "nodemon --watch src --ext ts --exec \"ts-node src/app.ts\"",
         "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -24,10 +25,19 @@
     },
     "homepage": "https://github.com/YaelChar417/portfolio#readme",
     "devDependencies": {
+        "@types/express": "^5.0.3",
         "@types/node": "^24.1.0",
+        "ts-node": "^10.9.2",
+        "tslib": "^2.8.1",
         "typescript": "^5.8.3"
     },
     "dependencies": {
-        "express": "5.1.0"
+        "-": "^0.0.1",
+        "@types/chai": "^5.2.2",
+        "@types/mocha": "^10.0.10",
+        "chai": "^5.2.1",
+        "express": "5.1.0",
+        "nodemon": "^3.1.10",
+        "save-dev": "^0.0.1-security"
     }
 }
