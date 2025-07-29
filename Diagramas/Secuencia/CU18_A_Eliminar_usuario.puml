@@ -1,0 +1,37 @@
+@startuml 
+
+autonumber
+
+actor navegador as nav
+boundary "users.routes" as routes
+boundary "users.views" as view
+control "users.controllers" as controller
+entity "users.models" as model
+database portfolio as db 
+
+activate nav
+nav->>routes: GET /:ID_user/delete
+deactivate nav
+
+activate routes
+routes -> controller: delete_user(req, res)
+deactivate routes
+
+activate controller
+controller ->> model: delete_user(req.params.ID)
+
+model ->> db: db.execute(`DELETE FROM users u \n\tWHERE u.ID = ?`, [req.params.ID])
+activate db
+model ->> db: db.execute(`DELETE FROM user_rol ur \n\tWHERE ur.ID_user = ?`, [req.params.ID])
+
+db -->> model: Query OK
+deactivate db
+
+model -->> controller: promesa
+deactivate model
+
+controller -> routes: res.redirect('/users')
+deactivate controller
+activate routes
+
+@enduml
