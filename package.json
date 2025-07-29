@@ -1,0 +1,33 @@
+{
+    "name": "mi_pagina",
+    "version": "1.0.0",
+    "description": "portfolio made by XMaster417 (Yael Charles)",
+    "main": "app.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/YaelChar417/portfolio.git"
+    },
+    "keywords": [
+        "portfolio",
+        "CV",
+        "cv"
+    ],
+    "author": "Yael Charles Marin",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/YaelChar417/portfolio/issues"
+    },
+    "homepage": "https://github.com/YaelChar417/portfolio#readme",
+    "devDependencies": {
+        "@types/node": "^24.1.0",
+        "typescript": "^5.8.3"
+    },
+    "dependencies": {
+        "express": "5.1.0"
+    }
+}
