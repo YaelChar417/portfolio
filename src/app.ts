@@ -1,9 +1,40 @@
 import express from "express";
-
-const app = express();
-app.use(express.json());
-
 const PORT = 3000;
+const TIME = 15 * 60 * 1000; // 15 minutos en milisegundos
+const app = express();
+import csrf from "csurf";
+import passport from "passport";
+import path from "path";
+import session from "express-session";
+import dotenv from "dotenv";
+// Usar variables seguras
+dotenv.config();
+
+// Configurar la sesion
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET!,
+        resave: false,
+        saveUninitialized: false,
+        rolling: true,
+        cookie: { maxAge: TIME },
+    })
+);
+
+// parsear informacion a objetos de typescript
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Manejo de sesiones
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Agregar proteccion contra ataques CSRF asignando tokens
+const csrf_protection = csrf();
+app.use(csrf_protection);
+
+// Asignar carpeta publica para archivos del cliente
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (_req, res) => {
     res.send("Hola mundo");
