@@ -36,8 +36,8 @@ app.use(csrf_protection);
 // Asignar carpeta publica para archivos del cliente
 app.use(express.static(path.join(__dirname, "public")));
 
-import landing_routes from "./routes/landing.routes";
-app.use("/", landing_routes);
+import users_router from "./routes/users";
+app.use("/", users_router);
 
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
