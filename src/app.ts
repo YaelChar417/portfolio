@@ -36,6 +36,10 @@ app.use(csrf_protection);
 // Asignar carpeta publica para archivos del cliente
 app.use(express.static(path.join(__dirname, "public")));
 
+// Configurar motor de vistas
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 import users_router from "./routes/users";
 app.use("/", users_router);
 
